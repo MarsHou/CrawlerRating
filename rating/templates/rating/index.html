@@ -20,16 +20,55 @@
 
     function search(id) {
         var xhr = new XMLHttpRequest()
-        xhr.open('GET', '/home/search/'+id, true)
-        xhr.setRequestHeader("Content_Type","application/x-www-form-urlencoded");
+        xhr.open('GET', '/home/search/' + id, true)
+        xhr.setRequestHeader("Content_Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
                 console.log(xhr.responseText)
                 var object = JSON.parse(xhr.responseText)
-                console.log(object.app_id)
+                set_data(object)
             }
         }
         xhr.send()
+    }
+
+    function set_data(json) {
+        {#var feed = json.feed#}
+        {#var author = feed.author#}
+        var entry = json.entry
+        {#var updated = feed.updated#}
+        {#var rights = feed.rights#}
+        {#var title = feed.title#}
+        {#var icon = feed.icon#}
+        {#var link = feed.link#}
+        {#var id = feed.id#}
+
+        var div = document.getElementById('table')
+        var html = '<table border="1" >'
+        html += ' <tr>\n' +
+            '            <td>AUTHOR</td>\n' +
+            '            <td>TITLE</td>\n' +
+            '            <td>CONTENT</td>\n' +
+            '            <td>VERSION</td>\n' +
+            '            <td>RATING</td>\n' +
+            '        </tr>'
+
+        for (var i = 1; i < entry.length; i++) {
+            html += '<tr><td>'
+            html += entry[i].author.name.label
+            html += '</td><td>'
+            html += entry[i].title.label
+            html += '</td><td>'
+            html += entry[i].content.label
+            html += '</td><td>'
+            html += entry[i]['im:version'].label
+            html += '</td><td>'
+            html += entry[i]['im:rating'].label
+            html += '</td></tr>'
+
+        }
+        html += '</table>'
+        div.innerHTML = html
     }
 
 </script>
@@ -43,6 +82,10 @@
         <input type="text" id="app_id"/>
     </label>
     <input type="button" id="search" value="SEARCH"/>
+
+</div>
+<br>
+<div id="table" class="center">
 </div>
 </body>
 
