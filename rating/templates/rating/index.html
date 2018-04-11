@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<style>
+    .center {
+        text-align: center
+    }
+</style>
+
+<script>
+    window.onload = function () {
+        document.getElementById('search').onclick = function () {
+            var id = document.getElementById('app_id').value
+            search(id)
+        }
+    }
+
+    function search(id) {
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', '/home/search/'+id, true)
+        xhr.setRequestHeader("Content_Type","application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                console.log(xhr.responseText)
+                var object = JSON.parse(xhr.responseText)
+                console.log(object.app_id)
+            }
+        }
+        xhr.send()
+    }
+
+</script>
+<body>
+<div class="center">
+    <h1>Welcome to Yellow Spider!</h1>
+    <br>
+    <br>
+    <label>
+        APP ID:
+        <input type="text" id="app_id"/>
+    </label>
+    <input type="button" id="search" value="SEARCH"/>
+</div>
+</body>
+
+</html>
