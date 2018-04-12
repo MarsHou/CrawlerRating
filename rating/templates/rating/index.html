@@ -46,6 +46,7 @@
         var div = document.getElementById('table')
         var html = '<table border="1" >'
         html += ' <tr>\n' +
+            '            <td>NO</td>\n' +
             '            <td>AUTHOR</td>\n' +
             '            <td>TITLE</td>\n' +
             '            <td>CONTENT</td>\n' +
@@ -53,8 +54,11 @@
             '            <td>RATING</td>\n' +
             '        </tr>'
 
+        var no = 1
         for (var i = 1; i < entry.length; i++) {
             html += '<tr><td>'
+            html += no
+            html += '</td><td>'
             html += entry[i].author.name.label
             html += '</td><td>'
             html += entry[i].title.label
@@ -65,7 +69,7 @@
             html += '</td><td>'
             html += entry[i]['im:rating'].label
             html += '</td></tr>'
-
+            no += 1
         }
         html += '</table>'
         div.innerHTML = html
